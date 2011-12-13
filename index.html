@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="./vendor/jCanvaScript.1.5.11.min.js"></script>
+    <script type="text/javascript" src="./vendor/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="./vendor/underscore-min.js"></script>
+    <script type="text/javascript" src="./vendor/backbone-min.js"></script>
+    <script type="text/javascript" src="./lib/go.js"></script>
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+        $(start);
+      });
+
+    </script>
+
+    <style type="text/css">
+
+      body {
+        background: #ffffff;  
+      }
+
+      #game {
+        margin-left: auto;
+        margin-right: auto;
+        width: 960px;
+      }
+
+      #go-board {
+        float: left;
+      }
+
+      .cbutton {
+        width: 130px;
+        font-size: 14pt;
+      }
+
+      .control {
+        background: #eee;
+        width: 130px;
+        height: 780px;
+        padding: 10px;
+        margin-left: auto;
+        float: right;  
+      }
+
+    </style>
+    <title>GoJS</title>
+  </head>
+  <body>
+    <div id="game">
+    <h1 class="heading">Let's play Go</h1>
+    <canvas width="800" height="800" id="go-board"></canvas>
+    <div class="control">
+      <input type="button" id="clear-button" value="New Game" class="cbutton">
+    </div>
+  </div>
+  </body>
+</html>
