@@ -30,7 +30,7 @@
         float: left;
       }
 
-      .cbutton {
+      .button {
         width: 130px;
         font-size: 14pt;
       }
@@ -44,6 +44,10 @@
         float: right;  
       }
 
+      .stats {
+        margin-top: 20px; 
+      }
+
     </style>
     <title>GoJS</title>
   </head>
@@ -52,7 +56,8 @@
     <h1 class="heading">Let's play Go</h1>
     <canvas width="800" height="800" id="go-board"></canvas>
     <div class="control">
-      <input type="button" id="clear-button" value="New Game" class="cbutton">
+      <input type="button" value="New Game" class="button clear">
+      <div class="stats"><div>
     </div>
   </div>
   </body>
