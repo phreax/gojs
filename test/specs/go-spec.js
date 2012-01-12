@@ -11,7 +11,7 @@ describe('A Go Board', function() {
   });
 
   describe('a single stone in the middle', function() {
-    var stone = boardModel.fieldAt(60);
+    var stone = boardModel.fieldAt(10,10);
     playStones([stone]);
 
     var libs = boardModel.liberties([stone]);
@@ -33,7 +33,7 @@ describe('A Go Board', function() {
   });
 
   describe("a single stone in the corner", function() {
-    var stone = boardModel.fieldAt(0);
+    var stone = boardModel.fieldAt(0,0);
     playStones([stone]);
     var libs = boardModel.liberties([stone]);
     
@@ -53,11 +53,16 @@ describe('A Go Board', function() {
 
   });
   
-  describe("a single stone at the boarder", function() {
-    var stone = boardModel.fieldAt(19);
+  describe("a single stone at the border", function() {
+    boardModel.clear();
+    var stone = boardModel.fieldAt(1,0);
     playStones([stone]);
     var libs = boardModel.liberties([stone]);
     
+    console.log("play at: "+stone.point());
+    console.log("liberties:");
+    _.map(libs,function(f){console.log(f.point())});
+   
     it('should have 3 liberties', function() {
       expect(libs.length).toEqual(3);
     });
@@ -75,8 +80,9 @@ describe('A Go Board', function() {
   });
 
   describe("a row of 5 stones in the middle",function() {
+    boardModel.clear();
 
-    var stones = _.map(_.range(20,25), function(i) { return boardModel.fieldAt(i);});
+    var stones = _.map(_.range(10,15), function(i) { return boardModel.fieldAt(10,i);});
     
     var libs = boardModel.liberties(stones);
     
