@@ -1,8 +1,31 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #ffffff;  
 }
 
-a {
-  color: #00B7FF;
+#game {
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+}
+
+#go-board {
+  float: left;
+}
+
+.button {
+  width: 130px;
+  font-size: 14pt;
+}
+
+.control {
+  background: #eee;
+  width: 130px;
+  height: 780px;
+  padding: 10px;
+  margin-left: auto;
+  float: right;  
+}
+
+.stats {
+  margin-top: 20px; 
 }
