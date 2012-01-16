@@ -1,7 +1,3 @@
-var GoBoard = Backbone.Collection.extend({
-  model: FieldModel
-});
-
 var GoBoardModel = Backbone.Model.extend({
   
   defaults: {
@@ -10,14 +6,14 @@ var GoBoardModel = Backbone.Model.extend({
   },
 
   initialize: function() {
-    this.board = new GoBoard();
+    this.fields = new Fields();
     
     var size = this.size();
     var idx= 0;
     for(i in _.range(size)) 
     for(j in _.range(size)) {
       idx = size*i+1*j;
-      this.board.add({point:[i,j],id:idx});
+      this.fields.add({point:[i,j],id:idx});
       idx++;
     }
 
@@ -26,26 +22,21 @@ var GoBoardModel = Backbone.Model.extend({
   size: function() {return this.get('size');},
   nextPlayer: function() {return this.get('nextPlayer');},
 
-  nextPlayerJSON: function() {
-    var player = this.nextPlayer() == "black"? "black" : "white";
-    return {player:player};
-  },
-
   // return a field model by coord, if exist, else undefined
   fieldAt: function(i,j) {
     var size = this.size()
     if(i<0||i>=size||j<0||j>=size) return undefined;
-    return this.board.at(i*size+j);
+    return this.fields.at(i*size+j);
   },
 
   playMove: function(field,color) {
     color = color || this.nextPlayer();
     field.setState(color);
    
-    opcolor = color=="white" ? "black" : "white";
+    nextcolor = color == "white"? "black": "white"; 
 
     // find dead groups and delete them
-    var dead = this.deadGroups(opcolor);
+    var dead = this.deadGroups(nextcolor);
     _.each(dead,this.deleteGroup,this);
 
     console.log("played at "+field.point() );
@@ -54,23 +45,18 @@ var GoBoardModel = Backbone.Model.extend({
     var self = this;
     _.map(this.liberties([f]),function(f){console.log(f.point());});
 
-    this.togglePlayer();
+    // toggle player
+    this.setPlayer(nextcolor);
         
   },
 
-  togglePlayer: function() {
-    if(this.nextPlayer()==2) {
-      this.set({nextPlayer:1});
-    }
-    else {
-      this.set({nextPlayer:2});
-    }
-    
+  setPlayer: function(player) {
+    this.set({nextPlayer:player});
   },
 
-  // clear whole board
+  // clear whole fields
   clear: function() {
-    this.board.each(function(field) {
+    this.fields.each(function(field) {
       field.clear();
     });
   },
@@ -99,7 +85,7 @@ var GoBoardModel = Backbone.Model.extend({
     var size = this.size();
 
     // clear visited
-    this.board.each(function(f) {f.visited = false;});
+    this.fields.each(function(f) {f.visited = false;});
 
     var groups = [];
     
@@ -130,7 +116,7 @@ var GoBoardModel = Backbone.Model.extend({
      }
     };
 
-    this.board.each(function(f) {
+    this.fields.each(function(f) {
       g = [];
       followGroup(f,g);
       if(g.length>0) groups.push(g);

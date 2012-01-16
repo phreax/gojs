@@ -1,9 +1,10 @@
 var FieldView = Backbone.View.extend({
 
-  colors: {1: "#000000", 2: "#ffffff"},
+  colors: {black: "#000000", white: "#ffffff"},
 
   currentColor: function() {
     var player = this.boardModel.nextPlayer();
+    console.log("player: "+player);
     return this.colors[player];
   },
 
@@ -12,20 +13,17 @@ var FieldView = Backbone.View.extend({
     _.extend(this,this.options);
     this.stone = jc.circle(this.x,this.y,this.radius,"rgba(0,0,0,0.0)",true).level(5);
 
-    // TODO make this more pretty, abstract rendering
     _.bindAll(this,"render","click","mouseover","mouseout");
     this.model.bind('change', this.render);
 
     // local state
     this.ismouseover = false;
 
-    // delegate jcanvascript events
-    _.extend(this.stone, {
-      onmouseclick: this.click,
-      onmouseover:  this.mouseover,
-      onmouseout:   this.mouseout,
-    });
+    this.stone.mouseover(this.mouseover);
+    this.stone.mouseout(this.mouseout);
+    this.stone.click(this.click);
   },
+  
 
   render: function() {
     
@@ -37,7 +35,9 @@ var FieldView = Backbone.View.extend({
     else if(this.model.isFree()) {
       this.stone.opacity(0.0);
       if(this.ismouseover) {
-        this.stone.opacity(0.3);
+        var color = this.currentColor();
+        this.stone.color(color);
+        this.stone.opacity(0.5);
       }
     }
   },

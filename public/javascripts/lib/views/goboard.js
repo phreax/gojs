@@ -20,7 +20,7 @@ var GoBoardView = Backbone.View.extend({
   initFields: function() {
     jc.start(this.id,true);
     var self = this;
-    this.model.board.each(function(f) {
+    this.model.fields.each(function(f) {
       var point = f.point();
       var p = self.indexToPoint(point[0],point[1]);
       var fv = new FieldView({
@@ -74,36 +74,6 @@ var GoBoardView = Backbone.View.extend({
     var x = this.border+i*this.spacing;
     var y = this.border+j*this.spacing;
     return [x,y];
-  }
-
-});
-
-var ControlView = Backbone.View.extend({
-
-  el: "#game .control",
-
-  events: {
-    "click .button.clear" : "clear"
-  },
-
-  template: _.template("<b>Current Player: </b> <%=player%>"),
-
-  initialize: function() {
-    this.model.bind('change',this.render,this);
-    this.render();
-  },
-
-  clear: function() {
-    this.model.clear();
-  },
-
-  render: function() {
-    this.updateStats();
-    return this;
-  },
-
-  updateStats: function() {
-    $(this.el).find(".stats").html(this.template(this.model.nextPlayerJSON()));
   }
 
 });
