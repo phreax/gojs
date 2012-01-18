@@ -1,5 +1,7 @@
 var GoBoardModel = Backbone.Model.extend({
   
+  url: 'goboard',
+
   defaults: {
     "nextPlayer":"black", // black player
     "size":19
