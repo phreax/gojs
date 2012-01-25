@@ -1,23 +1,42 @@
 var GoBoardModel = Backbone.Model.extend({
   
-  url: 'goboard',
+  urlRoot: 'goboard',
+
+  // url relative to parent model
+  url: function() {
+    var a = this.urlRoot;
+    if(this.parent) {
+      a = this.parent.url() + '/' +a;
+    }
+    return a;
+  },
 
   defaults: {
     "nextPlayer":"black", // black player
     "size":19
   },
 
+
   initialize: function() {
+
+    // initialize field collection
+
     this.fields = new Fields();
-    
+    this.fields.parent = this;
     var size = this.size();
     var idx= 0;
+
     for(i in _.range(size)) 
     for(j in _.range(size)) {
       idx = size*i+1*j;
-      this.fields.add({point:[i,j],id:idx});
-      idx++;
+      var f = new FieldModel({point:[i,j],id:idx});
+      f.parent = this;
+      this.fields.add(f);
     }
+
+    // bind event handlers
+    this.bind('play',this.playMove);
+    this.bind('update',this.set);
 
   },
   
@@ -32,10 +51,10 @@ var GoBoardModel = Backbone.Model.extend({
   },
 
   playMove: function(field,color) {
-    color = color || this.nextPlayer();
+    color= color || this.nextPlayer();
     field.setState(color);
    
-    nextcolor = color == "white"? "black": "white"; 
+    nextcolor = color === "white"? "black": "white"; 
 
     // find dead groups and delete them
     var dead = this.deadGroups(nextcolor);
@@ -48,11 +67,15 @@ var GoBoardModel = Backbone.Model.extend({
     _.map(this.liberties([f]),function(f){console.log(f.point());});
 
     // toggle player
-    this.setPlayer(nextcolor);
+    this.togglePlayer();
+
+    // save model
+    this.save();
         
   },
 
-  setPlayer: function(player) {
+  togglePlayer: function() {
+    var player = this.nextPlayer() === "white"? "black": "white"; 
     this.set({nextPlayer:player});
   },
 

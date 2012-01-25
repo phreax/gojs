@@ -1,20 +1,47 @@
-var App = Backbone.View.extend({
-  el: "#game",
+var Router = Backbone.Router.extend({
+  routes: {
+    "": "newGame",
+    "game/:id": "loadGame"
+  },
+
   initialize: function() {
-    console.log(this.el);
-    
-    this.boardModel = new GoBoardModel();
-    this.boardModel.save();
+    this.gameModel = new GameModel();
+    // create views
+    this.gameView = new GameView({model:this.gameModel});
+  },
 
-    this.boardView = new GoBoardView({model: this.boardModel});
-    this.controlView = new ControlView({model:this.boardModel});
+  newGame: function() {
+    console.log("new game");
+    this.gameModel.trigger('new');
+  },
 
-
+  loadGame: function(id) {
+    console.log("load game "+id);
+    this.gameModel.trigger('load',id);
   }
 
 });
 
-Backbone.sync = function(method,model,options) {
+var start = function() {
+  console.log("Initilize App");
+
+  var socket = new io.connect('http://localhost');
+
+  socket.on('connect',function(data) {
+    console.log('connected');
+  });
+
+  socket.on('hello',function(data) {
+    console.log("receive data: "+data);
+  });
+  
+  window.router = new Router();
+  Backbone.history.start();
+  
+  window.socket = socket;
+};
+
+/*Backbone.sync = function(method,model,options) {
   var socket = window.socket;
   
   var signature = function() {
@@ -77,26 +104,6 @@ Backbone.sync = function(method,model,options) {
       create();
       break;
   }
-};
+};*/
 
-var Router = Backbone.Router.extend({
-  
-})
 
-var start = function() {
-  console.log("Initilize App");
-
-  var socket = new io.connect('http://localhost');
-
-  socket.on('connect',function(data) {
-    console.log('connected');
-  });
-
-  socket.on('hello',function(data) {
-    console.log("receive data: "+data);
-  });
-  
-  window.socket = socket;
-
-  window.app = new App;
-};

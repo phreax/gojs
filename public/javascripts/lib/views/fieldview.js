@@ -19,12 +19,12 @@ var FieldView = Backbone.View.extend({
     // local state
     this.ismouseover = false;
 
+    // delegate mouse events
     this.stone.mouseover(this.mouseover);
     this.stone.mouseout(this.mouseout);
     this.stone.click(this.click);
   },
   
-
   render: function() {
     
     if(this.model.isColor()) {
@@ -42,9 +42,10 @@ var FieldView = Backbone.View.extend({
     }
   },
 
+  // event handlers for mouse events
   click: function() {
     if(this.model.isFree()) {
-      this.boardModel.playMove(this.model);
+      this.boardModel.trigger('play',this.model);
     }
   },
 

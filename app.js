@@ -6,7 +6,12 @@ var express = require('express'),
     app = module.exports = express.createServer(),
     MemoryStore = express.session.MemoryStore,
     sessionStore = new MemoryStore(),
-    sync = require('./lib/sync')(app,sessionStore);
+    parseCookie = require('connect').utils.parseCookie,
+    io          = require('socket.io'),
+    GameStore   = require('./lib/gamestore'),
+    gameStore   = new GameStore(),
+    io = io.listen(app);
+
 
 // Configuration
 app.configure(function(){
@@ -28,10 +33,18 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
+// define REST api
 app.get('/', function(req, res){
   res.render('index', {
     title: 'GoJS'
+  });
+});
+
+app.post('/game', function(req,res) {
+  console.log("request: "+JSON.stringify(req.body));
+  gameStore.createGame(function(err,ret) {
+    if(err) throw err;
+    res.send({id:ret});
   });
 });
 
