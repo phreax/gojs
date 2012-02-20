@@ -8,4 +8,4 @@ Demo
 
 A demo of the frontend can be found here:
 
-[demo](yaq.zapto.org/gojs)
+[demo](http://yaq.zapto.org/gojs)
