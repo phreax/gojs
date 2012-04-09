@@ -1,6 +1,6 @@
 var GoBoardModel = Backbone.Model.extend({
   
-  urlRoot: 'goboard',
+  urlRoot: 'board',
 
   // url relative to parent model
   url: function() {
