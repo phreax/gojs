@@ -1,3 +1,5 @@
+var Step = require('step');
+
 module.exports.load = function(gameStore) {
 
   return {
