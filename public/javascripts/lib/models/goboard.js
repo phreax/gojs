@@ -13,7 +13,8 @@ var GoBoardModel = Backbone.Model.extend({
 
   defaults: {
     "nextPlayer":"black", // black player
-    "size":19
+    "size":19,
+    "id":1
   },
 
 
@@ -29,14 +30,14 @@ var GoBoardModel = Backbone.Model.extend({
     for(i in _.range(size)) 
     for(j in _.range(size)) {
       idx = size*i+1*j;
-      var f = new FieldModel({point:[i,j],id:idx});
+      var f = new FieldModel({point:[i,j].join(','),id:idx});
       f.parent = this;
       this.fields.add(f);
     }
 
     // bind event handlers
-    this.bind('play',this.playMove);
-    this.bind('update',this.set);
+    this.on('play',this.playMove);
+    this.on('update',this.set);
 
   },
   
@@ -61,10 +62,9 @@ var GoBoardModel = Backbone.Model.extend({
     _.each(dead,this.deleteGroup,this);
 
     console.log("played at "+field.point() );
-    var f = this.fieldAt(0,1);
-    console.log(f);
-    var self = this;
-    _.map(this.liberties([f]),function(f){console.log(f.point());});
+    //var f = this.fieldAt(0,1);
+    //var self = this;
+    //_.map(this.liberties([f]),function(f){console.log(f.point());});
 
     // toggle player
     this.togglePlayer();

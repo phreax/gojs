@@ -30,6 +30,7 @@ module.exports.load = function(gameStore) {
     },
 
     update: function(req,res,next) {
+      console.log(JSON.stringify(req.body));
       gameStore.saveField(req.params.id,req.body,function(err,ret) {
         console.log("save field "+err);
         if(err) { 
@@ -38,6 +39,8 @@ module.exports.load = function(gameStore) {
           next();
         }
       });
+      
+      
     }
   };
 };

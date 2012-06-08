@@ -1,18 +1,23 @@
 var Router = Backbone.Router.extend({
   routes: {
-    "": "newGame",
-    "game/:id": "loadGame"
+    "games/new": "newGame",
+    "games/:id": "loadGame"
   },
 
   initialize: function() {
     this.gameModel = new GameModel();
     // create views
     this.gameView = new GameView({model:this.gameModel});
+    this.gameModel.on('created', function(id) {
+      this.navigate('/games/'+id);
+    },this);
+
   },
 
   newGame: function() {
     console.log("new game");
     this.gameModel.trigger('new');
+    var id = this.gameModel.id;
   },
 
   loadGame: function(id) {
@@ -39,6 +44,15 @@ var start = function() {
   Backbone.history.start();
   
   window.socket = socket;
+
+  // debug methods
+  //
+  window.allFields = function() {
+    var fields = this.router.gameModel.boardModel.fields.select(function(m) {
+      return m.get('state') !== 'free';
+    });
+    console.log(JSON.stringify(fields));
+  } 
 };
 
 /*Backbone.sync = function(method,model,options) {

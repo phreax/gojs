@@ -4,8 +4,14 @@ module.exports.load = function(gameStore) {
 
   return {
 
-    index: function(req,res,next) {
-      res.send(404);
+    index: function(req,res) {
+      gameStore.readAllGames(function(err,ret) {
+        if(err || !ret) { 
+          res.send(404);
+        } else {
+          res.send(ret);
+        }
+      });
     },
 
     show: function(req,res,next) {

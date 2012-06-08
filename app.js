@@ -45,39 +45,40 @@ app.get('/', function(req, res){
 });
 
 
-app.put('/game/:id/board/field/:fid', fields.update, function(req,res) {
+app.put('/games/:id/board/fields/:fid', fields.update, function(req,res) {
   res.send(200);
 });
 
-app.get('/game/:id/board/field/:fid', fields.show, function(req,res) {
+app.get('/games/:id/board/fields/:fid', fields.show, function(req,res) {
   res.send(req.field);
 });
 
-app.get('/game/:id/board/fields', fields.index, function(req,res) {
+app.get('/games/:id/board/fields', fields.index, function(req,res) {
   res.send(req.fields);
 });
 
-app.put('/game/:id/board/fields', fields.update, function(req,res) {
+app.put('/games/:id/board/fields', fields.update, function(req,res) {
   res.send(200);
 });
 
-app.put('/game/:id/board', boards.update, function(req,res) {
+app.put('/games/:id/board', boards.update, function(req,res) {
   res.send(200);
 });
 
-app.post('/game/:id/board', boards.create, function(req,res) {
+app.post('/games/:id/board', boards.create, function(req,res) {
   res.send(200);
 });
 
-app.get('/game/:id/board', boards.show, function(req,res) {
+app.get('/games/:id/board', boards.show, function(req,res) {
   res.send(req.board);
 });
 
-app.get('/game/:id', games.show, function(req,res) {
+app.get('/games/:id', games.show, function(req,res) {
   res.send(req.game);
 });
 
-app.post('/game', games.create); 
+app.get('/games', games.index); 
+app.post('/games', games.create); 
 
 app.error(function(err,req,res,next) {
   console.log("error thrown "+err);

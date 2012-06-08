@@ -5,6 +5,7 @@ var FieldView = Backbone.View.extend({
   currentColor: function() {
     var player = this.boardModel.nextPlayer();
     console.log("player: "+player);
+    console.log(JSON.stringify(this.model.attributes));
     return this.colors[player];
   },
 
@@ -14,7 +15,7 @@ var FieldView = Backbone.View.extend({
     this.stone = jc.circle(this.x,this.y,this.radius,"rgba(0,0,0,0.0)",true).level(5);
 
     _.bindAll(this,"render","click","mouseover","mouseout");
-    this.model.bind('change', this.render);
+    this.model.on('change', this.render);
 
     // local state
     this.ismouseover = false;

@@ -9,7 +9,7 @@ var ControlView = Backbone.View.extend({
   template: _.template("<b>Current Player: </b> <%=player%>"),
 
   initialize: function() {
-    this.model.bind('change',this.render,this);
+    this.model.on('change',this.render,this);
     this.render();
   },
 

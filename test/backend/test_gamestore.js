@@ -1,5 +1,4 @@
-var vows = require('vows'),
-    assert = require('assert'),
+var assert = require('assert'),
     _  = require('underscore'),
     GameStore = require('../../lib/gamestore'),
     gameStore = new GameStore,
@@ -31,12 +30,17 @@ var fields = _.map(_.range(50),function(n) {
       return {id:n,state:'free'};
 });
 
+var games = []
 // testing sequentally
 Step(
 
-  function flush() {
+  function select() {
+    redis.select(42,this);
+  },
+  function flush(err,res) {
     redis.flushdb(this);
   },
+  
   function createGame(err,res) {
     console.log("creating new game: ");
     gameStore.createGame(this);
@@ -153,17 +157,54 @@ Step(
     assert.isNull(err,"no error");
     gameStore.readAllFields(gameID,this);
   },
+
   function checkFields(err,res) {
     var sortByID = function(h1,h2) {
       return h1.id-h2.id;
     };
     assert.isNull(err,"no error");
     res.sort(sortByID);
-    assert.deepEqual(0,0,'saved fields === read fields');
+    assert.deepEqual(res,fields,'saved fields === read fields');
+    return res;
+  },
+  function flush(err,res) {
+    redis.flushdb(this);
+  },
+  
+  function createGame(err,res) {
+    console.log("creating new game: ");
+    gameStore.createGame(this);
+  },
+
+  function saveId(err,res) {
+    games.push(res);
+    return res;
+  },
+  
+  function createGame(err,res) {
+    console.log("creating new game: ");
+    gameStore.createGame(this);
+  },
+
+  function saveId(err,res) {
+    games.push(res);
+    return res;
+  },
+  
+  function readGames(err,res) {
+    gameStore.readAllGames(this);
+  },
+  function checkGames(err,res) {
+    
+    ids = _.map(res,function(m) {return m.id});
+    
+    assert.isNull(err,"no error");
+    ids.sort();
+    assert.deepEqual(ids,games,'saved games === read games');
   }
 
 );
 
 
 
-
+  

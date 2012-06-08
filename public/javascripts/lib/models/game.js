@@ -1,23 +1,26 @@
 var GameModel = Backbone.Model.extend({
-  urlRoot: 'game',
+  urlRoot: 'games',
 
   initialize: function() {
-    this.boardModel = new GoBoardModel();
-    this.boardModel.parent = this;
-
+    this.createBoard();
     // update board and models when game changes
     // todo: is there a better way to do this?
-    this.bind('new', this.newGame);    
-    this.bind('load', this.loadGame);
+    this.on('new', this.newGame);    
+    this.on('load', this.loadGame);
+  },
+
+  createBoard: function(props) {
+    this.boardModel = new GoBoardModel();
+    this.boardModel.parent = this;
   },
 
   newGame: function(props) {
     var opts = {};
     opts.success = _.bind(function() {
-      console.log("save game");
-      this.boardModel.clear();
+      this.createBoard();
       props && this.boardModel.set(props);
       this.boardModel.save();
+      this.trigger('created',this.id);
     },this);
     this.set({id:undefined}); // unset id
     console.log("new game");
@@ -27,17 +30,19 @@ var GameModel = Backbone.Model.extend({
   loadGame: function(id) {
     var opts = {};
     opts.success = _.bind(function() {
+//      this.createBoard();
+      
+      this.boardModel.clear();
       this.boardModel.fetch();
-      this.boardModel.fields.fetch({add:true});
+      this.boardModel.fields.fetch({add:true,merge:true});
     },this);
     
     opts.error = _.bind(function() {
+      console.log('could not load game');
       this.boardModel.clear();
     },this);
     
-    if(id !== this.id) {
-      this.set({id:id}); // set new id
-      this.fetch(opts);
-    }
+    this.set({id:id}); // set new id
+    this.fetch(opts);
   }
 });
