@@ -2,7 +2,7 @@ body {
   background: #ffffff;  
 }
 
-#game {
+#app {
   margin-left: auto;
   margin-right: auto;
   width: 960px;
@@ -17,7 +17,7 @@ body {
   font-size: 14pt;
 }
 
-.control {
+#control {
   background: #eee;
   width: 130px;
   height: 780px;

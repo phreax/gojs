@@ -17,7 +17,7 @@ var GameModel = Backbone.Model.extend({
   newGame: function(props) {
     var opts = {};
     opts.success = _.bind(function() {
-      this.createBoard();
+      this.boadModel.clear();
       props && this.boardModel.set(props);
       this.boardModel.save();
       this.trigger('created',this.id);

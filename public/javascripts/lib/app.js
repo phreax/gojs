@@ -1,5 +1,7 @@
 var Router = Backbone.Router.extend({
   routes: {
+   // "" : "index",
+   // "games" : "index",
     "games/new": "newGame",
     "games/:id": "loadGame"
   },

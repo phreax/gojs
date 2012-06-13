@@ -27,6 +27,14 @@ app.configure(function(){
   app.use(express.session({store: sessionStore, secret:"string",key: "express.sid"}));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+
+  hbsPrecompiler = require('handlebars-precompiler');
+  hbsPrecompiler.watchDir(
+    __dirname + '/public/templates',
+    __dirname + '/public/javascripts/templates.js',
+    ['handlebars','hbs']
+  );
+
 });
 
 app.configure('development', function(){

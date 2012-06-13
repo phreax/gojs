@@ -1,20 +1,27 @@
 var GoBoardView = Backbone.View.extend({
 
+  tagName: 'canvas',
   id: "go-board",
+  attributes: {width: 800, height: 800},
 
-  width: 800,
   border: 30,
   radius: 20,
 
-  initialize: function() {
+  initialize: function(options) {
+
+    this.parent = options.parent;
 
     var size = this.model.size();
+    this.width = this.attributes.width;
     this.spacing = spacing = (this.width-2*this.border)/(size-1);
 
     this._FieldViews = [];
     
-    this.initBoard();
-    this.initFields();
+    this.on('init', function(){
+      this.initBoard();
+      this.initFields();
+    },this);
+ 
   },
 
   initFields: function() {

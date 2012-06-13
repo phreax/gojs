@@ -1,14 +1,14 @@
 var ControlView = Backbone.View.extend({
 
-  el: "#game .control",
+  id: 'control',
 
   events: {
     "click .button.clear" : "clear"
   },
 
-  template: _.template("<b>Current Player: </b> <%=player%>"),
+  template: Handlebars.templates['control'],
 
-  initialize: function() {
+  initialize: function(options) {
     this.model.on('change',this.render,this);
     this.render();
   },
@@ -23,7 +23,7 @@ var ControlView = Backbone.View.extend({
   },
 
   updateStats: function() {
-    $(this.el).find(".stats").html(this.template({player:this.model.nextPlayer()}));
+    $(this.el).html(this.template({player: this.model.nextPlayer()}));
   }
 
 });

@@ -7,5 +7,7 @@
     , "jade": ">= 0.0.1"
     , "socket.io": "*"
     , "redis": ""
+    , "handlebars": ""
+    , "handlebars-precompiler": ""
   }
 }

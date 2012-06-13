@@ -2,11 +2,15 @@ html
   head
     title= title
     meta(http-equiv="content-type",content="text/html; charset=utf-8")
-    script(type="text/javascript",src="/javascripts/vendor/jCanvaScript.1.5.11.min.js")
+    script(type="text/javascript",src="/javascripts/vendor/jCanvaScript.1.5.18.js")
     script(type="text/javascript",src="/javascripts/vendor/jquery-1.7.1.min.js")
     script(type="text/javascript",src="/javascripts/vendor/underscore.js")
     script(type="text/javascript",src="/javascripts/vendor/backbone.js")
     script(type="text/javascript",src="/socket.io/socket.io.js")
+    script(type="text/javascript",src="/javascripts/vendor/handlebars.runtime.js")
+
+    script(type="text/javascript",src="/javascripts/templates.js")
+
 
     script(type="text/javascript",src="/javascripts/lib/models/field.js")
     script(type="text/javascript",src="/javascripts/lib/models/goboard.js")
@@ -26,9 +30,9 @@ html
     style(type="text/css",src="./stylesheets/style.css")
 
   body
-    #game 
+    #app
       h1 Let's play Go
-      canvas(width="800",height="800",id="go-board")
-      .control 
-        input(type="button",value="New Game",class="button clear")
-        .stats
+//      canvas(width="800",height="800",id="go-board")
+//      .control 
+//        input(type="button",value="New Game",class="button clear")
+///       .stats
