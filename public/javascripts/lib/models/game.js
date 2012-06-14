@@ -17,7 +17,7 @@ var GameModel = Backbone.Model.extend({
   newGame: function(props) {
     var opts = {};
     opts.success = _.bind(function() {
-      this.boadModel.clear();
+      this.boardModel.clear();
       props && this.boardModel.set(props);
       this.boardModel.save();
       this.trigger('created',this.id);
@@ -30,7 +30,6 @@ var GameModel = Backbone.Model.extend({
   loadGame: function(id) {
     var opts = {};
     opts.success = _.bind(function() {
-//      this.createBoard();
       
       this.boardModel.clear();
       this.boardModel.fetch();

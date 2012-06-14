@@ -18,10 +18,14 @@ var GoBoardView = Backbone.View.extend({
     this._FieldViews = [];
     
     this.on('init', function(){
+      console.log('init board');
       this.initBoard();
       this.initFields();
     },this);
  
+  },
+  remove: function() {
+    jc.canvas().del();
   },
 
   initFields: function() {

@@ -1,30 +1,64 @@
 var Router = Backbone.Router.extend({
   routes: {
-   // "" : "index",
-   // "games" : "index",
+    "" : "index",
+    "games" : "index",
     "games/new": "newGame",
     "games/:id": "loadGame"
   },
 
   initialize: function() {
-    this.gameModel = new GameModel();
-    // create views
-    this.gameView = new GameView({model:this.gameModel});
-    this.gameModel.on('created', function(id) {
-      this.navigate('/games/'+id);
-    },this);
+  },
 
+  index: function() {
+    this.removeViews();
+    Views.indexView = new IndexView();
+    root.append(Views.indexView.$el);
+  },
+
+  removeViews: function() {
+     if(Views.gameView) {
+      Views.gameView.remove();
+    }
+     if(Views.indexView) {
+      Views.indexView.remove();
+    }
   },
 
   newGame: function() {
-    console.log("new game");
-    this.gameModel.trigger('new');
-    var id = this.gameModel.id;
+    var game = new GameModel();
+    Models.currentGame = game;
+    
+    game.on('created', function(id) {
+      router.navigate('/games/'+id);
+    });
+
+    
+    this.removeViews();
+    
+    Views.gameView = new GameView({model:game});
+    root.html(Views.gameView);
+    root.append(Views.gameView.$el);
+    Views.gameView.trigger('init');
+
+    game.trigger('new');
   },
 
   loadGame: function(id) {
-    console.log("load game "+id);
-    this.gameModel.trigger('load',id);
+  
+    var game = new GameModel();
+    Models.currentGame = game;
+    
+    game.on('created', function(id) {
+      router.navigate('/games/'+id);
+    });
+
+    
+    this.removeViews();
+    Views.gameView = new GameView({model:game});
+
+    root.append(Views.gameView.$el);
+    Views.gameView.trigger('init');
+    game.trigger('load',id);
   }
 
 });
@@ -42,10 +76,15 @@ var start = function() {
     console.log("receive data: "+data);
   });
   
+  window.socket = socket;
+  
+  window.Views = {}
+  window.Models = {}
+  window.root = $('#app');
+
   window.router = new Router();
   Backbone.history.start();
   
-  window.socket = socket;
 
   // debug methods
   //
