@@ -9,5 +9,9 @@
     , "redis": ""
     , "handlebars": ""
     , "handlebars-precompiler": ""
+    , "piler": ""
+    , "underscore": ""
+    , "file": ""
+    , "nodewatch": ""
   }
 }

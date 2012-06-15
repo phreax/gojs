@@ -2,12 +2,13 @@
  * Module dependencies.
  */
 var express      = require('express'),
-    app          = module.exports                        = express.createServer(),
-    MemoryStore  = express.session.MemoryStore,
-    sessionStore = new MemoryStore(),
     parseCookie  = require('connect').utils.parseCookie,
     io           = require('socket.io'),
     GameStore    = require('./lib/gamestore'),
+    assets       = require('./assets'),
+    app          = module.exports = express.createServer(),
+    MemoryStore  = express.session.MemoryStore,
+    sessionStore = new MemoryStore(),
     gameStore    = new GameStore(),
     io           = io.listen(app);
 
@@ -16,8 +17,11 @@ var games  = require('./controller/games_controller').load(gameStore),
     fields = require('./controller/fields_controller').load(gameStore),
     boards = require('./controller/boards_controller').load(gameStore);
 
+
+  var assetdir = __dirname + '/public';
 // Configuration
 app.configure(function(){
+
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.logger({format: ':method :url'}));
@@ -26,14 +30,9 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.session({store: sessionStore, secret:"string",key: "express.sid"}));
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(assetdir));
 
-  hbsPrecompiler = require('handlebars-precompiler');
-  hbsPrecompiler.watchDir(
-    __dirname + '/public/templates',
-    __dirname + '/public/javascripts/templates.js',
-    ['handlebars','hbs']
-  );
+  assets.bind(app,{io:true});
 
 });
 
