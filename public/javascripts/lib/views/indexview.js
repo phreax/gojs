@@ -1,14 +1,16 @@
 var IndexView = Backbone.View.extend({
   id: 'game-index',
+  template: 'index',
 
   initialize: function() {
     this.collection = new GamesCollection();
     console.log(this.collection);
+    Handlebars.on('changed:'+this.template,this.render,this);
     this.render();
   },
 
   render: function() {
-    this.$el.html('<h1>Game Index</h1><br>'+JSON.stringify(this.collection.models));
+    var template = Handlebars.templates[this.template];
+    this.$el.html(template({index:'Hello world'}));
   }
-
-})
+});

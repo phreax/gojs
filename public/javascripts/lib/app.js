@@ -66,7 +66,8 @@ var Router = Backbone.Router.extend({
 var start = function() {
   console.log("Initilize App");
 
-  var socket = new io.connect('http://localhost');
+  // setup socketio
+  var socket = new io.connect('/app');
 
   socket.on('connect',function(data) {
     console.log('connected');
@@ -75,11 +76,21 @@ var start = function() {
   socket.on('hello',function(data) {
     console.log("receive data: "+data);
   });
+
+  // set up observer on handlebar templates
+  Handlebars.templates = Handlebars.templates || {};
+  _.extend(Handlebars, Backbone.Events);
+
+  Handlebars.set = _.bind(function(name,template) {
+    _.extend(template,Backbone.Events);
+    this.templates[name] = template;
+    this.trigger('changed',name);
+    this.trigger('changed:'+name);
+  },Handlebars);
   
   window.socket = socket;
-  
-  window.Views = {}
-  window.Models = {}
+  window.Views = {};
+  window.Models = {};
   window.root = $('#app');
 
   window.router = new Router();
@@ -93,7 +104,7 @@ var start = function() {
       return m.get('state') !== 'free';
     });
     console.log(JSON.stringify(fields));
-  } 
+  };
 };
 
 /*Backbone.sync = function(method,model,options) {

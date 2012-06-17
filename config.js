@@ -19,6 +19,7 @@ module.exports = {
       dir: 'templates',
       engine: 'handlebars',
       lib: {require: 'vendor/handlebars.runtime.js'},
+      watch: true
     }
   }
    

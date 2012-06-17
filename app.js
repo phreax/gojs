@@ -32,7 +32,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(assetdir));
 
-  assets.bind(app,{io:true});
+  assets.bind(app,{io:io});
 
 });
 

@@ -8,10 +8,10 @@
     , "socket.io": "*"
     , "redis": ""
     , "handlebars": ""
-    , "handlebars-precompiler": ""
+    , "handlebars-precompiler": "git://github.com/phreax/node-handlebars-precompiler.git"
     , "piler": ""
     , "underscore": ""
     , "file": ""
-    , "nodewatch": ""
+    , "watch": ""
   }
 }
