@@ -9,6 +9,7 @@
     , "redis": ""
     , "handlebars": ""
     , "handlebars-precompiler": "git://github.com/phreax/node-handlebars-precompiler.git"
+    , "acid": "git://github.com/phreax/acid.git"
     , "piler": ""
     , "underscore": ""
     , "file": ""

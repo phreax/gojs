@@ -5,12 +5,13 @@ var express      = require('express'),
     parseCookie  = require('connect').utils.parseCookie,
     io           = require('socket.io'),
     GameStore    = require('./lib/gamestore'),
-    assets       = require('./assets'),
+    acid         = require('acid'),
     app          = module.exports = express.createServer(),
     MemoryStore  = express.session.MemoryStore,
     sessionStore = new MemoryStore(),
     gameStore    = new GameStore(),
-    io           = io.listen(app);
+    io           = io.listen(app),
+    config       = require('./config');
 
 // controller
 var games  = require('./controller/games_controller').load(gameStore),
@@ -32,7 +33,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(assetdir));
 
-  assets.bind(app,{io:io});
+  acid.bind(app,{io:io,config:config});
 
 });
 
