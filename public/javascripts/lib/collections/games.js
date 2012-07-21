@@ -1,8 +1,4 @@
-var GamesCollection = Backbone.Collection.extend({
+var GameCollection = Backbone.Collection.extend({
   url: 'games',
   model: GameModel,
-
-  initialize: function() {
-    this.fetch();
-  }
 });

@@ -5,8 +5,8 @@ var GameModel = Backbone.Model.extend({
     this.createBoard();
     // update board and models when game changes
     // todo: is there a better way to do this?
-    this.on('new', this.newGame);    
-    this.on('load', this.loadGame);
+    this.on('create', this.createGame);    
+    this.on('fetch', this.fetchGame);
   },
 
   createBoard: function(props) {
@@ -14,7 +14,7 @@ var GameModel = Backbone.Model.extend({
     this.boardModel.parent = this;
   },
 
-  newGame: function(props) {
+  createGame: function(props) {
     var opts = {};
     opts.success = _.bind(function() {
       this.boardModel.clear();
@@ -22,12 +22,11 @@ var GameModel = Backbone.Model.extend({
       this.boardModel.save();
       this.trigger('created',this.id);
     },this);
-    this.set({id:undefined}); // unset id
-    console.log("new game");
+
     this.save({},opts);
   },
 
-  loadGame: function(id) {
+  fetchGame: function(id) {
     var opts = {};
     opts.success = _.bind(function() {
       
@@ -37,11 +36,11 @@ var GameModel = Backbone.Model.extend({
     },this);
     
     opts.error = _.bind(function() {
-      console.log('could not load game');
+      console.log('could not fetch game');
       this.boardModel.clear();
     },this);
     
-    this.set({id:id}); // set new id
+    this.set({id:id}); // set new id, to fetch the right model
     this.fetch(opts);
   }
 });

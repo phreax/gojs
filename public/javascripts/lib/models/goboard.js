@@ -2,14 +2,14 @@ var GoBoardModel = Backbone.Model.extend({
   
   urlRoot: 'board',
 
-  // url relative to parent model
-  url: function() {
-    var a = this.urlRoot;
-    if(this.parent) {
-      a = this.parent.url() + '/' +a;
-    }
-    return a;
-  },
+//// url relative to parent model
+//url: function() {
+//  var a = this.urlRoot;
+//  if(this.parent) {
+//    a = this.parent.url() + '/' +a;
+//  }
+//  return a;
+//},
 
   defaults: {
     "nextPlayer":"black", // black player
@@ -22,7 +22,7 @@ var GoBoardModel = Backbone.Model.extend({
 
     // initialize field collection
 
-    this.fields = new Fields();
+    this.fields = new FieldCollection();
     this.fields.parent = this;
     var size = this.size();
     var idx= 0;

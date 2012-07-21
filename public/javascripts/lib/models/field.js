@@ -2,13 +2,13 @@ var FieldModel = Backbone.Model.extend({
   urlRoot: 'fields',
   
   // url relative to parent model
-  url: function() {
-    var a = this.urlRoot+(this.id!==undefined? ('/'+this.id) : '');
-    if(this.parent) {
-      a = this.parent.url() + '/' +a;
-    }
-    return a;
-  },
+//url: function() {
+//  var a = this.urlRoot+(this.id!==undefined? ('/'+this.id) : '');
+//  if(this.parent) {
+//    a = this.parent.url() + '/' +a;
+//  }
+//  return a;
+//},
 
   defaults: {
     "state":     "free"
